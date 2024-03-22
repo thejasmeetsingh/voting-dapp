@@ -4,7 +4,7 @@ pragma solidity ^0.8.19;
 contract Election {
     // State varriables
     address admin;
-    uint256 candidateCount;
+    uint candidateCount;
     bool startElection;
     bool endElection;
 
@@ -21,14 +21,23 @@ contract Election {
         _;
     }
 
+    modifier isValidVoter(address _voterAddress) {
+        require(
+            startElection == true &&
+                endElection == false &&
+                !voters[_voterAddress].hasVoted
+        );
+        _;
+    }
+
     // Modeling Candidate
     struct Candidate {
-        uint256 id;
-        uint256 voterCount;
+        uint id;
+        uint voterCount;
         string name;
         string slogan;
     }
-    mapping(uint256 => Candidate) public candidates;
+    mapping(uint => Candidate) candidates;
 
     // Modeling Election detail
     struct ElectionDetail {
@@ -43,27 +52,31 @@ contract Election {
         string Email;
         bool hasVoted;
     }
-    mapping(address => Voter) public voters;
+    mapping(address => Voter) voters;
 
+    // Get info regarding election is started or not
     function getStartElection() public view returns (bool) {
         return startElection;
     }
 
+    // Get info regarding election is ended or not
     function getEndElection() public view returns (bool) {
         return endElection;
     }
 
+    // Start election
     function setStartElection() public onlyAdmin {
         startElection = true;
         endElection = false;
     }
 
+    // End election
     function setEndElection() public onlyAdmin {
         startElection = false;
         endElection = true;
     }
 
-    // Allow admin to add a candidate
+    // Add a candidate
     function addCandidate(
         string memory _name,
         string memory _slogan
@@ -77,21 +90,23 @@ contract Election {
         candidateCount++;
     }
 
+    // Get all candidates added by admin
     function getCandidates() public view returns (Candidate[] memory) {
         Candidate[] memory _candidates = new Candidate[](candidateCount);
 
-        for (uint256 index = 0; index < candidateCount; index++) {
+        for (uint index = 0; index < candidateCount; index++) {
             _candidates[index] = candidates[index];
         }
 
         return _candidates;
     }
 
+    // Retrive election details
     function getElectionDetail() public view returns (ElectionDetail memory) {
         return electionDetail;
     }
 
-    // Allow admin to add election detail
+    // Add election details
     function setElectionDetail(
         string memory _title,
         string memory _description
@@ -100,33 +115,17 @@ contract Election {
         electionDetail.description = _description;
     }
 
-    function addVoter(string memory _name, string memory _email) public {
-        if (!voters[msg.sender].hasVoted) {
-            voters[msg.sender] = Voter(_name, _email, false);
-        }
+    // Add a voter
+    function addVoter(
+        string memory _name,
+        string memory _email
+    ) public isValidVoter(msg.sender) {
+        voters[msg.sender] = Voter(_name, _email, false);
     }
 
-    function vote(uint256 candidateID) public {
-        if (!voters[msg.sender].hasVoted) {
-            candidates[candidateID].voterCount++;
-            voters[msg.sender].hasVoted = true;
-        }
-    }
-
-    function getElectionWinner() public view returns (Candidate memory) {
-        Candidate memory _candidate;
-
-        if (startElection != false && endElection != false) {
-            uint256 maxVoteCount = 0;
-
-            for (uint256 index = 0; index < candidateCount; index++) {
-                if (candidates[index].voterCount > maxVoteCount) {
-                    maxVoteCount = candidates[index].voterCount;
-                    _candidate = candidates[index];
-                }
-            }
-        }
-
-        return _candidate;
+    // Give vote to a candidate
+    function vote(uint candidateID) public isValidVoter(msg.sender) {
+        candidates[candidateID].voterCount++;
+        voters[msg.sender].hasVoted = true;
     }
 }
