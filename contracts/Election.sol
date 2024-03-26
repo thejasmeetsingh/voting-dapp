@@ -21,15 +21,6 @@ contract Election {
         _;
     }
 
-    modifier isValidVoter(address _voterAddress) {
-        require(
-            startElection == true &&
-                endElection == false &&
-                !voters[_voterAddress].hasVoted
-        );
-        _;
-    }
-
     // Modeling Candidate
     struct Candidate {
         uint id;
@@ -116,16 +107,17 @@ contract Election {
     }
 
     // Add a voter
-    function addVoter(
-        string memory _name,
-        string memory _email
-    ) public isValidVoter(msg.sender) {
-        voters[msg.sender] = Voter(_name, _email, false);
+    function addVoter(string memory _name, string memory _email) public {
+        if (startElection && !endElection && !voters[msg.sender].hasVoted) {
+            voters[msg.sender] = Voter(_name, _email, false);
+        }
     }
 
     // Give vote to a candidate
-    function vote(uint candidateID) public isValidVoter(msg.sender) {
-        candidates[candidateID].voterCount++;
-        voters[msg.sender].hasVoted = true;
+    function vote(uint candidateID) public {
+        if (startElection && !endElection && !voters[msg.sender].hasVoted) {
+            candidates[candidateID].voterCount++;
+            voters[msg.sender].hasVoted = true;
+        }
     }
 }
