@@ -1,7 +1,9 @@
-import "./App.css";
-
 function App() {
-  return <h1>Election D-App</h1>;
+  return (
+    <div>
+      <h1>Election D-App</h1>
+    </div>
+  );
 }
 
 export default App;
