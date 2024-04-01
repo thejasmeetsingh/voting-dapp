@@ -1,12 +1,30 @@
 export default function ShowCandidate({ candidate }) {
+  const makeTotalVotesReadable = (totalVotes) => {
+    if (totalVotes >= 1e9) {
+      return (totalVotes / 1e9).toFixed(1) + "B";
+    } else if (totalVotes >= 1e6) {
+      return (totalVotes / 1e6).toFixed(1) + "M";
+    } else if (totalVotes >= 1e3) {
+      return (totalVotes / 1e3).toFixed(1) + "K";
+    } else {
+      return totalVotes.toString();
+    }
+  };
+
   return (
-    <div>
-      <div>{candidate.name}</div>
-      <div>{candidate.slogan}</div>
+    <div className="card">
+      <div className="mt-12 font-bold">{candidate.name}</div>
       <div>
-        <button>Vote</button>
+        <p className="line-clamp-3">{candidate.slogan}</p>
       </div>
-      <div>{candidate.totalVotes}</div>
+      <div className="mt-12">
+        <button className="rounded bg-indigo-500 text-white size-12 py-2 px-4 w-60">
+          Vote
+        </button>
+        <div className="mt-2">
+          {makeTotalVotesReadable(candidate.totalVotes)}
+        </div>
+      </div>
     </div>
   );
 }

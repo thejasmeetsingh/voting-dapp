@@ -16,5 +16,10 @@ export default function TopCandidates(params) {
     return <div key={index}>{candidate}</div>;
   });
 
-  return <div>{renderCandidates}</div>;
+  return (
+    <div>
+      <h2>Top Candidates</h2>
+      <div>{renderCandidates}</div>
+    </div>
+  );
 }

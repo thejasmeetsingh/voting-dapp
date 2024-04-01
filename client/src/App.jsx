@@ -5,12 +5,24 @@ import TopCandidates from "./components/TopCandidates";
 
 export default function App() {
   return (
-    <div>
-      <h1>Decentralized Election</h1>
-      <ElectionDetail />
-      <CandidateList />
-      <AddCandidate />
-      <TopCandidates />
+    <div className="md:container md:mx-auto m-8">
+      <h1 className="text-6xl text-center font-bold uppercase mb-20">
+        Decentralized Election
+      </h1>
+      <div className="mb-8">
+        <ElectionDetail />
+      </div>
+      <div className="mb-8">
+        <CandidateList />
+      </div>
+      <div className="grid grid-cols-2 gap-12 text-center">
+        <div>
+          <AddCandidate />
+        </div>
+        <div>
+          <TopCandidates />
+        </div>
+      </div>
     </div>
   );
 }
