@@ -1,7 +1,6 @@
 import AddCandidate from "./components/AddCandidate";
 import CandidateList from "./components/CandidateList";
 import ElectionDetail from "./components/ElectionDetail";
-import TopCandidates from "./components/TopCandidates";
 
 export default function App() {
   return (
@@ -15,13 +14,8 @@ export default function App() {
       <div className="mb-8">
         <CandidateList />
       </div>
-      <div className="grid grid-cols-2 gap-12 text-center">
-        <div>
-          <AddCandidate />
-        </div>
-        <div>
-          <TopCandidates />
-        </div>
+      <div className="text-center">
+        <AddCandidate />
       </div>
     </div>
   );

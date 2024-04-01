@@ -18,7 +18,7 @@ export default function ShowCandidate({ candidate }) {
         <p className="line-clamp-3">{candidate.slogan}</p>
       </div>
       <div className="mt-12">
-        <button className="rounded bg-indigo-500 text-white size-12 py-2 px-4 w-60">
+        <button className="rounded bg-indigo-500 text-white py-2 px-16">
           Vote
         </button>
         <div className="mt-2">

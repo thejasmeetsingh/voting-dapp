@@ -5,13 +5,27 @@ export default function AddCandidate(params) {
 
   return (
     <div>
-      <h2>Add Candidate</h2>
+      <h2 className="text-2xl font-bold mb-3">Add Candidate</h2>
       <form onSubmit={onFormSubmit}>
-        <label htmlFor="name">Name:</label>
-        <input type="text" name="name" id="name" />
-        <label htmlFor="slogan">Slogan:</label>
-        <input type="text" name="slogan" id="slogan" />
-        <button>Add</button>
+        <div className="mb-4">
+          <input
+            className="rounded rounded px-12 py-2"
+            autoFocus
+            type="text"
+            id="name"
+            placeholder="Name"
+          />
+        </div>
+
+        <div className="mb-4">
+          <input
+            className="rounded px-12 py-2"
+            type="text"
+            id="slogan"
+            placeholder="Slogan"
+          />
+        </div>
+        <button className="px-12 py-2">Add</button>
       </form>
     </div>
   );
