@@ -14,7 +14,7 @@ export default function App() {
       <div className="mb-8">
         <CandidateList />
       </div>
-      <div className="text-center">
+      <div>
         <AddCandidate />
       </div>
     </div>
