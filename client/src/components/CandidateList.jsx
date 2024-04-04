@@ -34,6 +34,8 @@ export default function CandidateList(params) {
   });
 
   return (
-    <div className="grid grid-cols-4 gap-4 text-center">{renderCandidates}</div>
+    <div className="grid sm:grid-cols-4 gap-4 text-center">
+      {renderCandidates}
+    </div>
   );
 }

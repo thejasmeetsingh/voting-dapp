@@ -13,6 +13,19 @@
 
 @layer components {
   .card {
+    background: radial-gradient(
+      circle,
+      rgba(148, 187, 233, 1) 0%,
+      rgba(238, 174, 202, 1) 150%
+    );
+    border-radius: theme("borderRadius.lg");
+    padding: theme("spacing.6");
+    box-shadow: theme("boxShadow.2xl");
+  }
+}
+
+@layer components {
+  .candidate-card {
     background-color: theme("colors.white");
     border-radius: theme("borderRadius.lg");
     padding: theme("spacing.6");
