@@ -1,14 +1,29 @@
+import { useState } from "react";
+import useCandidateContext from "../hooks/use-candidate-context";
+
 export default function AddCandidate(params) {
+  const [name, setName] = useState("");
+  const [slogan, setSlogan] = useState("");
+  const { addCandidate } = useCandidateContext();
+
   const onFormSubmit = (e) => {
     e.preventDefault();
+    addCandidate(name, slogan);
+
+    setName("");
+    setSlogan("");
   };
 
   return (
-    <div className="card">
+    <footer className="card">
       <h2 className="text-2xl text-center font-bold mb-3">Add Candidate</h2>
       <form onSubmit={onFormSubmit} className="max-w-md mx-auto">
         <div className="relative z-0 w-full mb-5 group">
           <input
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
             type="text"
             name="name"
             id="name"
@@ -17,7 +32,7 @@ export default function AddCandidate(params) {
             required
           />
           <label
-            for="name"
+            htmlFor="name"
             className="peer-focus:font-medium absolute text-sm text-white-500 dark:text-white-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >
             Name
@@ -25,6 +40,10 @@ export default function AddCandidate(params) {
         </div>
         <div className="relative z-0 w-full mb-5 group">
           <input
+            value={slogan}
+            onChange={(e) => {
+              setSlogan(e.target.value);
+            }}
             type="text"
             name="slogan"
             id="slogan"
@@ -33,8 +52,8 @@ export default function AddCandidate(params) {
             required
           />
           <label
-            for="slogan"
-            class="peer-focus:font-medium absolute text-sm text-white-500 dark:text-white-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            htmlFor="slogan"
+            className="peer-focus:font-medium absolute text-sm text-white-500 dark:text-white-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >
             Slogan
           </label>
@@ -43,6 +62,6 @@ export default function AddCandidate(params) {
           Add
         </button>
       </form>
-    </div>
+    </footer>
   );
 }

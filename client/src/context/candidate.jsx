@@ -30,8 +30,19 @@ function Provider({ children }) {
     ]);
   }, []);
 
-  const addCandidate = async (name, slogan) => {
-    setCandidates([...candidates, { name, slogan, totalVotes: 0 }]);
+  const addCandidate = async (name, slogan, totalVotes = 0) => {
+    setCandidates([...candidates, { name, slogan, totalVotes }]);
+  };
+
+  const updateCandidateVote = async (idx) => {
+    setCandidates(
+      candidates.map((candidate, index) => {
+        if (index == idx) {
+          return { ...candidate, totalVotes: candidate.totalVotes + 1 };
+        }
+        return candidate;
+      })
+    );
   };
 
   return (
@@ -40,6 +51,7 @@ function Provider({ children }) {
         candidates,
         fetchCandidates,
         addCandidate,
+        updateCandidateVote,
       }}
     >
       {children}
