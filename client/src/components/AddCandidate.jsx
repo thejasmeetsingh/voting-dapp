@@ -4,14 +4,18 @@ import useCandidateContext from "../hooks/use-candidate-context";
 export default function AddCandidate(params) {
   const [name, setName] = useState("");
   const [slogan, setSlogan] = useState("");
+  const [logo, setLogo] = useState(null);
   const { addCandidate } = useCandidateContext();
 
   const onFormSubmit = (e) => {
     e.preventDefault();
-    addCandidate(name, slogan);
+    addCandidate(name, slogan, logo);
 
     setName("");
     setSlogan("");
+    setLogo(null);
+
+    document.getElementById("logo").value = "";
   };
 
   return (
@@ -20,13 +24,13 @@ export default function AddCandidate(params) {
       <form onSubmit={onFormSubmit} className="max-w-md mx-auto">
         <div className="relative z-0 w-full mb-5 group">
           <input
-            // value={name}
-            // onChange={(e) => {
-            //   setName(e.target.value);
-            // }}
+            onChange={(e) => {
+              setLogo(e.target.files[0]);
+            }}
             type="file"
             name="logo"
             id="logo"
+            accept="image/png, image/jpg"
             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             required
           />

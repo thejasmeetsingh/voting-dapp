@@ -2,6 +2,9 @@ import useCandidateContext from "../hooks/use-candidate-context";
 
 export default function ShowCandidate({ index, candidate }) {
   const { updateCandidateVote } = useCandidateContext();
+  const logoURL = `${import.meta.env.VITE_GATEWAY_URL}/ipfs/${
+    candidate.logoHash
+  }`;
 
   const makeTotalVotesReadable = (totalVotes) => {
     if (totalVotes >= 1e9) {
@@ -17,6 +20,9 @@ export default function ShowCandidate({ index, candidate }) {
 
   return (
     <div className="candidate-card">
+      <div>
+        <img className="rounded" src={logoURL} alt={candidate.name} />
+      </div>
       <div className="mt-12 font-bold">{candidate.name}</div>
       <div>
         <p className="line-clamp-3">{candidate.slogan}</p>
