@@ -27,6 +27,7 @@ contract Election {
         uint voterCount;
         string name;
         string slogan;
+        string logoHash;
     }
     mapping(uint => Candidate) candidates;
 
@@ -70,13 +71,15 @@ contract Election {
     // Add a candidate
     function addCandidate(
         string memory _name,
-        string memory _slogan
+        string memory _slogan,
+        string memory _logoHash
     ) public onlyAdmin {
         candidates[candidateCount] = Candidate(
             candidateCount,
             0,
             _name,
-            _slogan
+            _slogan,
+            _logoHash
         );
         candidateCount++;
     }
