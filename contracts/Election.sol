@@ -38,13 +38,7 @@ contract Election {
     }
     ElectionDetail electionDetail;
 
-    // Modeling Voter
-    struct Voter {
-        string name;
-        string Email;
-        bool hasVoted;
-    }
-    mapping(address => Voter) voters;
+    mapping(address => bool) voters;
 
     // Get info regarding election is started or not
     function getStartElection() public view returns (bool) {
@@ -110,17 +104,17 @@ contract Election {
     }
 
     // Add a voter
-    function addVoter(string memory _name, string memory _email) public {
-        if (startElection && !endElection && !voters[msg.sender].hasVoted) {
-            voters[msg.sender] = Voter(_name, _email, false);
+    function addVoter() public {
+        if (startElection && !endElection && !voters[msg.sender]) {
+            voters[msg.sender] = false;
         }
     }
 
     // Give vote to a candidate
     function vote(uint candidateID) public {
-        if (startElection && !endElection && !voters[msg.sender].hasVoted) {
+        if (startElection && !endElection && !voters[msg.sender]) {
             candidates[candidateID].voterCount++;
-            voters[msg.sender].hasVoted = true;
+            voters[msg.sender] = true;
         }
     }
 }
