@@ -1,38 +1,27 @@
 import { createContext, useCallback, useState } from "react";
+import { getCurrWalletAccount, getContract } from "../utils/web3";
 import uploadFile from "../utils/ipfs";
 
 const CandidateContext = createContext();
 
 function Provider({ children }) {
   const [candidates, setCandidates] = useState([]);
+  const contract = getContract();
 
   const fetchCandidates = useCallback(async () => {
-    setCandidates([
-      {
-        name: "Candidate 1",
-        slogan: "Lorem Ipsum",
-        totalVotes: 9000,
-        logoHash: "",
-      },
-      {
-        name: "Candidate 2",
-        slogan: "Lorem Ipsum",
-        totalVotes: 150,
-        logoHash: "",
-      },
-      {
-        name: "Candidate 3",
-        slogan: "Lorem Ipsum",
-        totalVotes: 10,
-        logoHash: "",
-      },
-      {
-        name: "Candidate 4",
-        slogan: "Lorem Ipsum",
-        totalVotes: 0,
-        logoHash: "",
-      },
-    ]);
+    const candidateList = await contract.methods.getCandidates().call();
+
+    for (let index = 0; index < candidateList.length; index++) {
+      setCandidates([
+        ...candidates,
+        {
+          name: candidateList[index].name,
+          slogan: candidateList[index].slogan,
+          totalVotes: candidateList[index].voterCount,
+          logoHash: candidateList[index].logoHash,
+        },
+      ]);
+    }
   }, []);
 
   const addCandidate = async (name, slogan, logo, totalVotes = 0) => {
