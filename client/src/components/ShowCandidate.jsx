@@ -6,15 +6,15 @@ export default function ShowCandidate({ index, candidate }) {
     candidate.logoHash
   }`;
 
-  const makeTotalVotesReadable = (totalVotes) => {
-    if (totalVotes >= 1e9) {
-      return (totalVotes / 1e9).toFixed(1) + "B";
-    } else if (totalVotes >= 1e6) {
-      return (totalVotes / 1e6).toFixed(1) + "M";
-    } else if (totalVotes >= 1e3) {
-      return (totalVotes / 1e3).toFixed(1) + "K";
+  const makeTotalVotesReadable = (voterCount) => {
+    if (voterCount >= 1e9) {
+      return (voterCount / 1e9).toFixed(1) + "B";
+    } else if (voterCount >= 1e6) {
+      return (voterCount / 1e6).toFixed(1) + "M";
+    } else if (voterCount >= 1e3) {
+      return (voterCount / 1e3).toFixed(1) + "K";
     } else {
-      return totalVotes.toString();
+      return voterCount.toString();
     }
   };
 
@@ -37,7 +37,7 @@ export default function ShowCandidate({ index, candidate }) {
           Vote
         </button>
         <div className="mt-2">
-          {makeTotalVotesReadable(candidate.totalVotes)}
+          {makeTotalVotesReadable(candidate.voterCount)}
         </div>
       </div>
     </div>

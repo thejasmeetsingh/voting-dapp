@@ -5,10 +5,10 @@ import ElectionDetail from "./components/ElectionDetail";
 import useCandidateContext from "./hooks/use-candidate-context";
 
 export default function App() {
-  const { fetchCandidates } = useCandidateContext();
+  const { initWeb3 } = useCandidateContext();
 
   useEffect(() => {
-    fetchCandidates();
+    initWeb3();
   }, []);
 
   return (
