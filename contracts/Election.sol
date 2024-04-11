@@ -112,9 +112,8 @@ contract Election {
 
     // Give vote to a candidate
     function vote(uint candidateID) public {
-        if (startElection && !endElection && !voters[msg.sender]) {
-            candidates[candidateID].voterCount++;
-            voters[msg.sender] = true;
-        }
+        require(startElection && !endElection && !voters[msg.sender]);
+        candidates[candidateID].voterCount++;
+        voters[msg.sender] = true;
     }
 }
