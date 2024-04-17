@@ -1,24 +1,19 @@
 import { createContext, useCallback, useState } from "react";
-import Web3 from "web3";
-import ElectionContract from "../abi/Election.json";
+import { getCurrWalletAccount, getContract } from "../utils/web3";
 import uploadFile from "../utils/ipfs";
 
 const CandidateContext = createContext();
 
 function Provider({ children }) {
   const [candidates, setCandidates] = useState([]);
-
-  const web3 = new Web3(import.meta.env.VITE_WEB3_PROVIDER);
-  const contract = new web3.eth.Contract(
-    ElectionContract.abi,
-    ElectionContract.contractAddress
-  );
+  const contract = getContract();
 
   const initWeb3 = useCallback(async () => {
-    const accounts = await web3.eth.getAccounts();
+    const account = await getCurrWalletAccount();
 
     // Fetch candidate list from blockchain
     const candidateList = await contract.methods.getCandidates().call();
+
     setCandidates(
       candidateList.map((candidate, _) => {
         return { ...candidate, voterCount: Number(candidate.voterCount) };
@@ -28,7 +23,7 @@ function Provider({ children }) {
     // Add Voter in blockchain
     await contract.methods
       .addVoter()
-      .send({ from: accounts[0] })
+      .send({ from: account })
       .on("receipt", (receipt) => {
         console.log("Voter Added: ", receipt);
       })
@@ -36,28 +31,32 @@ function Provider({ children }) {
         console.log("Error while adding voter: ", error);
       });
 
-    // Start Election
-    await contract.methods
-      .setStartElection()
-      .send({ from: accounts[0] })
-      .on("receipt", (receipt) => {
-        console.log("Election Started: ", receipt);
-      })
-      .on("error", (error) => {
-        console.log("Error while starting election: ", error);
-      });
+    const electionStarted = await contract.methods.getStartElection().call();
+
+    if (!electionStarted) {
+      // Start Election
+      await contract.methods
+        .setStartElection()
+        .send({ from: account })
+        .on("receipt", (receipt) => {
+          console.log("Election Started: ", receipt);
+        })
+        .on("error", (error) => {
+          console.log("Error while starting election: ", error);
+        });
+    }
   }, []);
 
   const addCandidate = async (name, slogan, logo, voterCount = 0) => {
     const logoHash = await uploadFile(name, logo);
 
     if (logoHash) {
-      const accounts = await web3.eth.getAccounts();
+      const account = await getCurrWalletAccount();
 
       // Add candidate in blockchain
       await contract.methods
         .addCandidate(name, slogan, logoHash)
-        .send({ from: accounts[0] })
+        .send({ from: account })
         .on("receipt", (receipt) => {
           console.log("Candidate Added");
 
@@ -74,12 +73,12 @@ function Provider({ children }) {
   };
 
   const updateCandidateVote = async (idx) => {
-    const accounts = await web3.eth.getAccounts();
+    const account = await getCurrWalletAccount();
 
     // Update vote count on blockchain
     await contract.methods
       .vote(idx)
-      .send({ from: accounts[0] })
+      .send({ from: account })
       .on("receipt", (receipt) => {
         console.log("Voted!");
 

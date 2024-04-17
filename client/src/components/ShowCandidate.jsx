@@ -20,24 +20,34 @@ export default function ShowCandidate({ index, candidate }) {
 
   return (
     <div className="candidate-card">
-      <div>
-        <img className="rounded" src={logoURL} alt={candidate.name} />
-      </div>
-      <div className="mt-12 font-bold">{candidate.name}</div>
-      <div>
-        <p className="line-clamp-3">{candidate.slogan}</p>
-      </div>
-      <div className="mt-12">
-        <button
-          onClick={(e) => {
-            updateCandidateVote(index);
-          }}
-          className="text-white bg-indigo-500 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-10 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800"
-        >
-          Vote
-        </button>
-        <div className="mt-2">
-          {makeTotalVotesReadable(candidate.voterCount)}
+      <div className="grid grid-rows-4 gap-3">
+        <div className="row-span-2">
+          <img
+            className="rounded sm:w-60 sm:h-20"
+            src={logoURL}
+            alt={candidate.name}
+          />
+        </div>
+        <div>
+          <div className="font-bold">{candidate.name}</div>
+          <div>
+            <p className="line-clamp-3">{candidate.slogan}</p>
+          </div>
+        </div>
+        <div>
+          <div>
+            <button
+              onClick={(e) => {
+                updateCandidateVote(index);
+              }}
+              className="text-white bg-indigo-500 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-10 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800"
+            >
+              Vote
+            </button>
+            <div className="mt-2">
+              {makeTotalVotesReadable(candidate.voterCount)}
+            </div>
+          </div>
         </div>
       </div>
     </div>
