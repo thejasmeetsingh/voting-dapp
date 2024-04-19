@@ -22,11 +22,7 @@ export default function ShowCandidate({ index, candidate }) {
     <div className="candidate-card">
       <div className="grid grid-rows-4 gap-3">
         <div className="row-span-2">
-          <img
-            className="rounded sm:w-60 sm:h-20"
-            src={logoURL}
-            alt={candidate.name}
-          />
+          <img className="rounded sm:w-20" src={logoURL} alt={candidate.name} />
         </div>
         <div>
           <div className="font-bold">{candidate.name}</div>
