@@ -35,6 +35,9 @@ Before running the application, make sure you have the following prerequisites i
    - These commands will compile the smart contracts, start a local blockchain node, and deploy the contracts on the local node.
 
 3. Run the Front-End:
+
    - Navigate to the client folder using the command.
    - Install the required dependencies using `npm install`.
    - Once the dependencies are installed, start the frontend server using `npm run dev`.
+
+   This will start the frontend application and open it in your default browser.
